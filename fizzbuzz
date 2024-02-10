@@ -1,0 +1,64 @@
+Fizz Buzz Test
+The "Fizz-Buzz test" is an interview question designed to help filter out the 99.5% of programming job candidates who can't seem to program their way out of a wet paper bag. The text of the programming assignment is as follows:
+"Write a program that prints the numbers from 1 to 100. But for multiples of three print “Fizz” instead of the number and for the multiples of five print “Buzz”. For numbers which are multiples of both three and five print “FizzBuzz”."
+Source: "Using FizzBuzz to Find Developers who Grok Coding" http://tickletux.wordpress.com/2007/01/24/using-fizzbuzz-to-find-developers-who-grok-coding/
+''It would be more interesting if the numbers were -50 to +50. -- mt <+*i + 67 Articles:
+"Why Can't Programmers.. Program?" -- http://www.codinghorror.com/blog/archives/000781.html
+http://peripateticaxiom.blogspot.co.uk/2007/02/fizzbuzz.html
+http://imranontech.com/2007/01/24/using-fizzbuzz-to-find-developers-who-grok-coding/
+FizzBuzzInManyProgrammingLanguages
+Video: How to write FizzBuzz in Ruby, with Test-Driven Development - http://youtu.be/CHTep2zQVAc
+I never got the fizz buzz test, but out of the blue lately I've been asked such stupid questions I was amazed I was even asked. Tell me about HTML. My favorite. How do you write a for loop. WTH? - (circa 2014)
+Why Fizz-Buzz is "hard:"
+We can't understand why so many people "fail" the Fizz-Buzz test unless we understand why it is "hard" (for them). Understanding that, we may be able to evaluate the usefulness of this tool, and others, as filtering tools for candidates.
+I think Fizz-Buzz is "hard" for some programmers because (#1) it doesn't fit into any of the patterns that were given to them in school assignments, and (#2) it isn't possible to directly and simply represent the necessary tests, without duplication, in just about any commonly-used modern programming language.
+On #1, that it doesn't match the patterns they memorized from lectures and class assignments: I think this makes it a good discriminator, because I wish to hire candidates who can think for themselves -- not those who are limited to copying solutions from others.
+On #2, that it's hard to directly code it: Fizz-Buzz does not fall into the common pattern of
+  if 1 then A
+  else if 2 then B
+  else if 3 then C
+  else/otherwise D
+(Well it does, but not when you consider "1,2 & 3" to be atomic tests, like "is divisible by 3.")
+Consider...
+  if (theNumber is divisible by 3) then
+	print "Fizz"
+  else if (theNumber is divisible by 5) then
+	print "Buzz"
+  else /* theNumber is not divisible by 3 or 5 */
+	print theNumber
+  end if
+Now where do you put "FizzBuzz" in this structure?
+Like this...?
+  if (theNumber is divisible by 3) then	--->
+	if (theNumber is divisible by 5) then
+	print "FizzBuzz"
+	else			  <---
+	print "Fizz"
+  else if (theNumber is divisible by 5) then
+	print "Buzz"
+  else /* theNumber is not divisible by 3 or 5 */
+	print theNumber
+  end if
+[ick!!!] (The structure of the if statements is icky, and there are two tests for the same condition -- (theNumber is divisible by 5).) PJB: I think this comment is the crux of the problem. Decision trees (embedded tests) don't have anything icky about them, and while the same condition may have to be repeated, it is performed in different branches, and therefore it is executed only once. Why newbie programmers still have this urge to write clever code instead of writing code that do clearly the job?
+Doing a "3 and 5" test makes the code more readable -- with more duplication:
+  if (theNumber is divisible by 3) and (theNumber is divisible by 5) then
+	print "FizzBuzz"
+  else if (theNumber is divisible by 3) then
+	print "Fizz"
+  else if (theNumber is divisible by 5) then
+	print "Buzz"
+  else /* theNumber is not divisible by 3 or 5 */
+	print theNumber
+  end if
+Maybe there's no simple and satisfying solution to the code structuring issue. (...except in COBOL-85, which would be ironic. ;-) -- JeffGrigg PJB: there is a simple and satisfying solution to the code structuring issue, but it involves a lisp macro.
+I'm rather late to this page but I made a new Java solution that is way smaller than the one below:
+public class fizzbuzz {
+	public static void main(String[] args){		
+		for(int i = 1; i <= 100; i++){
+			String test = "";
+			test += (i % 3) == 0 ? "fizz" : "";
+			test += (i % 5) == 0 ? "buzz" : "";
+			System.out.println(!test.isEmpty() ? test : i);
+		}
+	}
+}
